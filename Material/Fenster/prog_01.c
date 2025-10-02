@@ -3,15 +3,17 @@
 #define W 640
 #define H 480
 int main() {
+  int numero;
   uint32_t buf[W * H];
   struct fenster f = { .title = "Chao", .width = W, .height = H, .buf = buf };
   fenster_open(&f);
   while (fenster_loop(&f) == 0) {
     for (int i = 0; i < W; i++) {
       for (int j = 0; j < H; j++) {
-        fenster_pixel(&f, i, j) = rand();
+        //numero = rand();
+        //printf("%d\n", numero);
+        fenster_pixel(&f, i, j) = 0xffffff;
       }
-      printf("%d\n", i);
     }
   }
   fenster_close(&f);
