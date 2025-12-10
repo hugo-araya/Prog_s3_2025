@@ -2,80 +2,93 @@
 #include <stdlib.h>
 #include<time.h>
 
-#define LIMITE 100000
-// Función para intercambiar dos elementos
-void swap(int* a, int* b) {
-    int t = *a;
-    *a = *b;
-    *b = t;
-}
+#define MAXIMO 100000
 
-/* Esta función toma el último elemento como pivote,
-  coloca el pivote en su posición correcta en el array ordenado,
-  y coloca todos los elementos menores (menores que el pivote)
-  a la izquierda del pivote y todos los elementos mayores a la derecha del pivote */
-int partition(int arr[], int low, int high) {
-    int pivot = arr[high];    // Pivote
-    int i = (low - 1);  // Índice del elemento más pequeño
+void swap(int *, int *);
+int particion(int [], int, int);
+void quickSort(int [], int, int);
+void muestra_vector(int [], int);
+void lee_datos(int *, int, char *);
 
-    for (int j = low; j <= high - 1; j++) {
-        // Si el elemento actual es menor o igual que el pivote
-        if (arr[j] <= pivot) {
-            i++; // Incrementar índice del elemento más pequeño
-            swap(&arr[i], &arr[j]);
-        }
-    }
-    swap(&arr[i + 1], &arr[high]);
-    return (i + 1);
-}
-
-/* La función principal que implementa Quicksort
- arr --> Array a ser ordenado,
- low  --> Índice de inicio,
- high  --> Índice de fin */
-void quickSort(int arr[], int low, int high) {
-    if (low < high) {
-        // pi es el índice de partición, arr[p] está ahora en el lugar correcto
-        int pi = partition(arr, low, high);
-
-        // Se ordena recursivamente antes y después de la partición
-        quickSort(arr, low, pi - 1);
-        quickSort(arr, pi + 1, high);
-    }
-}
-
-// Función para imprimir el array
-void printArray(int arr[], int size) {
-    int i;
-    for (i = 0; i < size; i++)
-        printf("%d ", arr[i]);
-    printf("\n");
-}
-
-void lee_datos(int *vector, int n){
-    int i;
-    int dato;
-    for (i = 0; i < n; i++){
-        scanf("%d", &dato);
-        vector[i] = dato;
-    }
-}
-
-// Código de ejemplo de uso
-int main() {
+int main(int argc, char *argv[]) {
     time_t t_1, t_2;
-    int arr[LIMITE];
-    int n = sizeof(arr) / sizeof(arr[0]);
-    lee_datos(arr, LIMITE);
-
-
+    int vector[MAXIMO];
+    int LIMITE = atoi(argv[1]);
+    lee_datos(vector, LIMITE, argv[2]);
+    muestra_vector(vector, LIMITE);
+    
     t_1=time(NULL);
-    quickSort(arr, 0, LIMITE);
+    quickSort(vector, 0, LIMITE);
     t_2=time(NULL);
+
+    muestra_vector(vector, LIMITE);
     //printArray(arr, LIMITE);
     printf("\n\nEstadistica del programa: Ordenamiento .... ");   
     printf("\n\nTiempo 1 = %ld",t_1);
     printf("\n\nTiempo 2 = %ld",t_2);
     printf("\n\nTiempo Total = %lf\n",difftime(t_2, t_1));
     return 0;
+}
+
+void swap(int* a, int* b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+/* Esta funcion toma el ultimo elemento como pivote,
+  coloca el pivote en su posición correcta en el arreglo ordenado,
+  y coloca todos los elementos menores (menores que el pivote)
+  a la izquierda del pivote y todos los elementos mayores a la 
+  derecha del pivote */
+
+int particion(int vector[], int ini, int fin) {
+    int pivote = vector[fin];    // Pivote
+    int i = (ini - 1);  // Indice del elemento mas pequeno
+
+    for (int j = ini; j <= fin - 1; j++) {
+        // Si el elemento actual es menor o igual que el pivote
+        if (vector[j] <= pivote) {
+            i++; // Incrementar indice del elemento mas pequeno
+            swap(&vector[i], &vector[j]);
+        }
+    }
+    swap(&vector[i + 1], &vector[fin]);
+    return (i + 1);
+}
+
+/* La función principal que implementa Quicksort
+ vector --> Arreglo a ser ordenado,
+ ini  --> Indice de inicio,
+ fin  --> Indice de fin */
+
+void quickSort(int vector[], int ini, int fin) {
+    if (ini < fin) {
+        // pi es el indice de particion, vector[p] esta ahora en el lugar correcto
+        int pi = particion(vector, ini, fin);
+
+        // Se ordena recursivamente antes y despues de la particion
+        quickSort(vector, ini, pi - 1);
+        quickSort(vector, pi + 1, fin);
+    }
+}
+
+// Función para imprimir el arreglo
+void muestra_vector(int vector[], int size) {
+    int i;
+    for (i = 0; i < size; i++)
+        printf("%d ", vector[i]);
+    printf("\n");
+}
+
+void lee_datos(int *vector, int n, char *nombre){
+    int i;
+    int dato;
+    FILE *ent;
+    ent = fopen(nombre, "r");
+    for (i = 0; i < n; i++){
+        fscanf(ent, "%d", &dato);
+        vector[i] = dato;
+    }
+    fclose(ent);
 }
