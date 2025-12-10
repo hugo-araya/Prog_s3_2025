@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include<time.h>
 
-#define MAXIMO 100000
+#define MAXIMO 1000000
+int cont = 0;
 
 void swap(int *, int *);
 int particion(int [], int, int);
@@ -15,14 +16,13 @@ int main(int argc, char *argv[]) {
     int vector[MAXIMO];
     int LIMITE = atoi(argv[1]);
     lee_datos(vector, LIMITE, argv[2]);
-    muestra_vector(vector, LIMITE);
+    //muestra_vector(vector, LIMITE);
     
-    t_1=time(NULL);
-    quickSort(vector, 0, LIMITE);
-    t_2=time(NULL);
+    t_1 = time(NULL);
+    quickSort(vector, 0, LIMITE - 1);
+    t_2 = time(NULL);
 
-    muestra_vector(vector, LIMITE);
-    //printArray(arr, LIMITE);
+    //muestra_vector(vector, LIMITE);
     printf("\n\nEstadistica del programa: Ordenamiento .... ");   
     printf("\n\nTiempo 1 = %ld",t_1);
     printf("\n\nTiempo 2 = %ld",t_2);
@@ -63,6 +63,7 @@ int particion(int vector[], int ini, int fin) {
  fin  --> Indice de fin */
 
 void quickSort(int vector[], int ini, int fin) {
+    printf("%d\n", cont++);
     if (ini < fin) {
         // pi es el indice de particion, vector[p] esta ahora en el lugar correcto
         int pi = particion(vector, ini, fin);
